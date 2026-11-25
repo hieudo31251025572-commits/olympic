@@ -81,6 +81,8 @@ th{color:#cbbcff;font-weight:600}
 .ok{color:var(--ok);font-weight:700}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .katex-display{margin:.5em 0}
+/* Giãn dòng cho đề bài: 1,55 lần cỡ chữ + thêm 2pt (đổi 2pt ở đây nếu muốn chỉnh) */
+#qbox p{line-height:calc(1.55em + 2pt)}
 </style></head>
 <body>
 <div id="deco" aria-hidden="true">
@@ -155,7 +157,7 @@ function renderQ(){
   if(S.phase==='idle'){b.className='mut';b.textContent='Chờ người điều khiển mở câu hỏi.';lastKey=key;return}
   if(key===lastKey)return; // không vẽ lại khi thí sinh đang gõ
   lastKey=key;b.className='';
-  let h='<div class="mut">Câu '+(S.q+1)+'/'+S.nq+' · '+S.min+' phút · điểm theo thứ hạng 5, 4, 3, 2, 1</div><p>'+rich(S.text)+'</p>';
+  let h='<div class="mut">Câu '+(S.q+1)+'/'+S.nq+' · '+S.min+' phút · 1 người đúng: 10đ · 2 người: 8đ · 3 người: 6đ · 4-5 người: 5đ (mỗi người)</div><p>'+rich(S.text)+'</p>';
   const canAnswer=S.phase==='open'&&!isMC&&S.me;
   if(canAnswer){
     if(S.me.submitted)h+='<div class="ok">Đã nộp đáp án. Chờ hết giờ.</div>';
