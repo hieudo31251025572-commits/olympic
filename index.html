@@ -1,30 +1,109 @@
 <!doctype html>
 <html lang="vi"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Olympic Toán - Thống kê 2026: Thi đấu</title>
+<title>Cuộc thi Olympic Toán - Thống kê 2026</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <style>
-:root{--bg:#f8f5ff;--fg:#1d1240;--card:#fff;--ac:#7a3fe0;--ok:#0b8f9a;--bad:#c0392b;--mut:#6b6290;color-scheme:light}
-@media(prefers-color-scheme:dark){:root{--bg:#140a38;--fg:#f2eeff;--card:#2b1370;--ac:#b18cff;--mut:#b9aee0;color-scheme:dark}}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 "TeX Gyre Heros",Arial,sans-serif}
-main{max-width:760px;margin:0 auto;padding:16px}
-h1{font-size:20px;margin:0 0 4px}h2{font-size:17px;margin:0 0 8px}
-.card{background:var(--card);border-radius:12px;padding:14px 16px;margin:12px 0;box-shadow:0 1px 4px #0003}
+:root{--bg1:#0a0524;--bg2:#1d0b5c;--fg:#f4f0ff;--card:rgba(36,16,98,.58);--line:rgba(177,140,255,.35);--ac:#8a4dff;--ac2:#b18cff;--gold:#f5b83d;--cy:#3fe0ff;--pk:#ff3df0;--ok:#4fe3d0;--mut:#b9aee0;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg1)}
+body{margin:0;min-height:100vh;color:var(--fg);font:16px/1.55 "TeX Gyre Heros",Arial,sans-serif;
+  background:
+   radial-gradient(1200px 700px at 78% -10%,#3a16a8 0%,transparent 60%),
+   radial-gradient(900px 600px at 0% 40%,#2a0f7a 0%,transparent 60%),
+   linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 100%);
+  background-attachment:fixed}
+#deco{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+#deco .stars{position:absolute;inset:0;opacity:.9;
+  background-image:
+   radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),
+   radial-gradient(1px 1px at 28% 62%,#cbb8ff,transparent),
+   radial-gradient(1.5px 1.5px at 44% 12%,#fff,transparent),
+   radial-gradient(1px 1px at 63% 36%,#fff,transparent),
+   radial-gradient(1.5px 1.5px at 81% 22%,#cbb8ff,transparent),
+   radial-gradient(1px 1px at 92% 58%,#fff,transparent),
+   radial-gradient(1px 1px at 7% 84%,#fff,transparent),
+   radial-gradient(1.5px 1.5px at 55% 78%,#cbb8ff,transparent),
+   radial-gradient(1px 1px at 36% 90%,#fff,transparent),
+   radial-gradient(1px 1px at 72% 8%,#fff,transparent);
+  animation:tw 6s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.55}to{opacity:1}}
+#deco .ring{position:absolute;border:1px solid rgba(177,140,255,.28);border-radius:50%}
+#deco .r1{width:1100px;height:1100px;right:-520px;top:-380px}
+#deco .r2{width:760px;height:760px;left:-420px;bottom:-300px;border-color:rgba(255,255,255,.14)}
+#deco .spark{position:absolute;color:#fff;filter:drop-shadow(0 0 8px #b18cff)}
+#deco .sp1{width:34px;height:34px;left:5%;top:9%}
+#deco .sp2{width:22px;height:22px;right:7%;top:46%;color:#e9dcff}
+#deco .sp3{width:16px;height:16px;left:12%;bottom:22%}
+#deco .planet{position:absolute;right:-150px;bottom:-130px;width:420px;height:420px;border-radius:50%;
+  background:
+   radial-gradient(circle at 30% 28%,rgba(255,255,255,.22),transparent 38%),
+   radial-gradient(circle at 62% 66%,rgba(26,8,80,.6),transparent 45%),
+   radial-gradient(circle at 40% 40%,#6a3df0,#2b1370 70%,#140a38 100%);
+  box-shadow:0 0 90px rgba(138,77,255,.45), inset -30px -30px 80px rgba(10,5,36,.7)}
+#deco .planet::before,#deco .planet::after{content:"";position:absolute;border-radius:50%;background:rgba(20,10,56,.45);box-shadow:inset 3px 3px 8px rgba(0,0,0,.35)}
+#deco .planet::before{width:70px;height:70px;left:90px;top:80px}
+#deco .planet::after{width:42px;height:42px;left:200px;top:150px}
+#deco .rock{position:absolute;background:linear-gradient(135deg,#3a2a78,#0d0630);border:1px solid rgba(177,140,255,.4);
+  clip-path:polygon(10% 0,70% 8%,100% 50%,78% 100%,20% 90%,0 40%)}
+#deco .k1{width:26px;height:22px;right:21%;bottom:19%;transform:rotate(25deg)}
+#deco .k2{width:14px;height:12px;right:16%;bottom:27%;transform:rotate(-40deg)}
+#deco .k3{width:18px;height:15px;right:28%;bottom:13%;transform:rotate(70deg)}
+#deco .dune{position:absolute;left:0;right:0;bottom:0;width:100%;height:150px;opacity:.9}
+@media(prefers-reduced-motion:reduce){#deco .stars{animation:none}}
+main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:18px 16px 60px}
+.hero{display:flex;align-items:center;gap:14px;margin:6px 0 4px}
+.moon{width:74px;height:74px;flex:none;filter:drop-shadow(0 0 14px rgba(245,184,61,.55))}
+h1{margin:0;line-height:1}
+.pill{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;color:#fff;padding:4px 16px;border-radius:4px;
+  background:linear-gradient(90deg,#2f6bff,#5a8bff);box-shadow:0 0 14px rgba(47,107,255,.6)}
+.olym{display:block;margin-top:6px;font-size:clamp(34px,9vw,52px);font-weight:800;letter-spacing:.04em;
+  background:linear-gradient(180deg,#fff 0%,#d9ccff 42%,#7f62ff 58%,#efe8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(2px 0 0 rgba(255,61,240,.55)) drop-shadow(-2px 0 0 rgba(63,224,255,.55))}
+.sub{display:block;margin-top:2px;font-size:clamp(14px,3.8vw,20px);font-weight:700;letter-spacing:.14em;color:#e4d9ff}
+.sub b{color:var(--gold);letter-spacing:.2em}
+h2{font-size:17px;margin:0 0 8px;color:#e4d9ff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0;
+  box-shadow:0 8px 30px rgba(8,2,40,.45),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .mut{color:var(--mut);font-size:14px}
-#tm{font-size:34px;font-weight:700;color:var(--ac)}
+#tm{font-size:36px;font-weight:800;color:#fff;text-shadow:0 0 18px rgba(138,77,255,.9)}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-button,input{font:inherit;border-radius:8px;border:1px solid var(--ac);padding:10px 14px;background:var(--card);color:var(--fg)}
-button{cursor:pointer;background:var(--ac);color:#fff;border:0}
-button:disabled{opacity:.45;cursor:default}
-.opts button{background:var(--card);color:var(--fg);border:1px solid var(--ac);text-align:left}
+button,input{font:inherit;border-radius:10px;border:1px solid var(--ac2);padding:10px 14px;background:rgba(10,5,36,.55);color:var(--fg)}
+input::placeholder{color:#9a8fc9}
+button{cursor:pointer;background:linear-gradient(135deg,#8a4dff,#5b2fe0);color:#fff;border:0;box-shadow:0 4px 14px rgba(110,60,240,.45)}
+button:hover:not(:disabled){filter:brightness(1.12)}
+button:disabled{opacity:.4;cursor:default;box-shadow:none}
+.opts button{background:rgba(10,5,36,.55);color:var(--fg);border:1px solid var(--ac2);text-align:left;box-shadow:none}
+.opts button:hover{background:rgba(138,77,255,.28)}
 input{width:60%;max-width:100%}
-table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;text-align:left;border-bottom:1px solid #8883}
+table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;text-align:left;border-bottom:1px solid rgba(177,140,255,.22)}
+th{color:#cbbcff;font-weight:600}
 .ok{color:var(--ok);font-weight:700}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .katex-display{margin:.5em 0}
 </style></head>
-<body><main>
-<h1>Olympic Toán - Thống kê 2026</h1>
+<body>
+<div id="deco" aria-hidden="true">
+  <div class="stars"></div>
+  <div class="ring r1"></div><div class="ring r2"></div>
+  <svg class="spark sp1" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c.8 6.2 5.8 11.2 12 12-6.2.8-11.2 5.8-12 12-.8-6.2-5.8-11.2-12-12C6.2 11.2 11.2 6.2 12 0z"/></svg><svg class="spark sp2" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c.8 6.2 5.8 11.2 12 12-6.2.8-11.2 5.8-12 12-.8-6.2-5.8-11.2-12-12C6.2 11.2 11.2 6.2 12 0z"/></svg><svg class="spark sp3" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c.8 6.2 5.8 11.2 12 12-6.2.8-11.2 5.8-12 12-.8-6.2-5.8-11.2-12-12C6.2 11.2 11.2 6.2 12 0z"/></svg>
+  <div class="planet"></div>
+  <div class="rock k1"></div><div class="rock k2"></div><div class="rock k3"></div>
+  <svg class="dune" viewBox="0 0 800 150" preserveAspectRatio="none">
+    <defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a3fe0" stop-opacity=".55"/><stop offset="1" stop-color="#140a38" stop-opacity="0"/></linearGradient></defs>
+    <path d="M0 90 C120 40 220 110 360 70 C500 30 620 100 800 55 L800 150 L0 150 Z" fill="url(#dg)"/>
+    <path d="M0 90 C120 40 220 110 360 70 C500 30 620 100 800 55" fill="none" stroke="#b18cff" stroke-opacity=".55" stroke-width="1.5"/>
+  </svg>
+</div>
+<main>
+<header class="hero">
+  <svg class="moon" viewBox="0 0 100 100" aria-hidden="true">
+    <defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#f08a24"/></linearGradient></defs>
+    <path d="M62 10a42 42 0 1 0 28 66A36 36 0 0 1 62 10z" fill="url(#mg)"/>
+    <path d="M52 30c1.4 9.6 7.4 15.6 17 17-9.6 1.4-15.6 7.4-17 17-1.4-9.6-7.4-15.6-17-17 9.6-1.4 15.6-7.4 17-17z" fill="#fff"/>
+  </svg>
+  <h1><span class="pill">CUỘC THI</span><span class="olym">OLYMPIC</span><span class="sub">TOÁN - THỐNG KÊ <b>2026</b></span></h1>
+</header>
 <div class="mut" id="who"></div>
 <div id="join"></div>
 <div class="card"><div id="tm"></div><div id="qbox" class="mut">Chờ người điều khiển mở câu hỏi.</div></div>
@@ -59,7 +138,7 @@ async function poll(){
 }
 function render(){
   if(!S)return;
-  $('who').textContent=isMC?'Bạn là người điều khiển (MC).':(S.me?'Thí sinh: '+S.me.name:'');
+  $('who').textContent=isMC?(S.host?'Bạn là người điều khiển (MC).':'Mật khẩu MC chưa đúng.'):(S.me?'Thí sinh: '+S.me.name:'');
   renderJoin();renderQ();renderHost();renderBoard();
 }
 function renderJoin(){
@@ -99,19 +178,31 @@ async function submit(v){
 }
 function renderBoard(){
   const cur=S.phase==='reveal';
-  $('board').innerHTML=S.board.length?'<table><tr><th>Thí sinh</th>'+(cur?'<th>Câu này</th>':'')+'<th>Tổng</th></tr>'+S.board.map(p=>'<tr><td>'+esc(p.name)+(S.me&&p.id===S.me.id?' (bạn)':'')+'</td>'+(cur?'<td>'+(p.cur||0)+'</td>':'')+'<td><b>'+p.total+'</b></td></tr>').join('')+'</table>':'<span class="mut">Chưa có thí sinh nào vào phòng.</span>';
+  $('board').innerHTML=S.board.length?'<table><tr><th>Thí sinh</th>'+(cur?'<th>Câu này</th>':'')+'<th>Tổng</th>'+(isMC?'<th></th>':'')+'</tr>'+S.board.map(p=>'<tr><td>'+esc(p.name)+(S.me&&p.id===S.me.id?' (bạn)':'')+'</td>'+(cur?'<td>'+(p.cur||0)+'</td>':'')+'<td><b>'+p.total+'</b></td>'+(isMC?'<td><button class="kick" data-k="'+esc(p.id)+'" style="padding:2px 8px;font-size:13px">Xóa</button></td>':'')+'</tr>').join('')+'</table>':'<span class="mut">Chưa có thí sinh nào vào phòng.</span>';
 }
 let hostKey='';
+$('board').addEventListener('click',async e=>{
+  const b=e.target.closest('.kick');if(!b||!isMC)return;
+  if(!confirm('Xóa thí sinh này khỏi phòng?'))return;
+  await api('/api/host',{action:'kick',id:b.dataset.k});poll();
+});
 function renderHost(){
   if(!isMC){$('hostbox').innerHTML='';return}
-  const h=S.host||{players:0,answered:0};
+  if(!S.host){
+    if(hostKey==='nopw')return;hostKey='nopw';
+    $('hostbox').innerHTML='<div class="card"><h2>Chưa đăng nhập MC</h2><div class="mut">Mật khẩu chưa đúng hoặc chưa nhập.</div><div class="row"><button id="pw">Nhập lại mật khẩu MC</button></div></div>';
+    $('pw').onclick=()=>{const v=prompt('Mật khẩu người điều khiển (MC):');if(v===null)return;mcpw=v;sessionStorage.setItem('olp_mcpw',mcpw);hostKey='';poll()};
+    return;
+  }
+  const h=S.host;
   const nx=S.phase==='idle'?0:S.q+1;
   const key=[S.phase,S.q,h.players,h.answered].join('|');
   if(key===hostKey)return;hostKey=key;
-  $('hostbox').innerHTML='<div class="card"><h2>Điều khiển</h2><div class="mut">'+(S.phase==='open'?'Đã nhận '+h.answered+'/'+h.players+' đáp án.':'Thí sinh trong phòng: '+h.players)+'</div><div class="row"><button id="hn" '+(nx>=S.nq||S.phase==='open'?'disabled':'')+'>Mở câu '+(nx+1)+'</button><button id="hc" '+(S.phase==='open'?'':'disabled')+'>Chốt câu và chấm điểm</button><button id="hr">Làm lại từ đầu</button></div></div>';
-  const act=async a=>{await api('/api/host',{action:a});hostKey='';poll()};
+  $('hostbox').innerHTML='<div class="card"><h2>Điều khiển</h2><div class="mut">'+(S.phase==='open'?'Đã nhận '+h.answered+'/'+h.players+' đáp án.':'Thí sinh trong phòng: '+h.players)+'</div><div class="row"><button id="hn" '+(nx>=S.nq||S.phase==='open'?'disabled':'')+'>Mở câu '+(nx+1)+'</button><button id="hc" '+(S.phase==='open'?'':'disabled')+'>Chốt câu và chấm điểm</button><button id="hr">Làm lại từ đầu</button><button id="hx">Xóa tất cả thí sinh</button></div></div>';
+  const act=async a=>{const r=await api('/api/host',{action:a});if(r.error)alert(r.error);hostKey='';poll()};
   $('hn').onclick=()=>act('open');$('hc').onclick=()=>act('close');
   $('hr').onclick=()=>{if(confirm('Xóa toàn bộ điểm và bắt đầu lại?'))act('reset')};
+  $('hx').onclick=()=>{if(confirm('Xóa TẤT CẢ thí sinh và điểm? Thí sinh phải nhập tên lại.'))act('clear')};
 }
 setInterval(()=>{
   const tm=$('tm');
