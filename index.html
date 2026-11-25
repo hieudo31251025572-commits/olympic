@@ -88,6 +88,8 @@ th{color:#cbbcff;font-weight:600}
 /* Giãn dòng cho đề bài: 1,55 lần cỡ chữ + thêm 2pt (đổi 2pt ở đây nếu muốn chỉnh) */
 #qbox p{line-height:calc(1.55em + 3pt)}
 #qbox p{font-size:20px}
+.katex{font-size:1.08em}
+.katex-display{margin:.7em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
 </style></head>
 <body>
 <div id="deco" aria-hidden="true">
@@ -118,7 +120,13 @@ th{color:#cbbcff;font-weight:600}
 (()=>{
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function rich(s){return String(s==null?'':s).split(/\$([^$]+)\$/).map((p,i)=>{if(i%2===0)return esc(p);try{return window.katex?katex.renderToString(p,{throwOnError:false}):esc(p)}catch(e){return esc(p)}}).join('')}
+function rich(s){
+  return String(s==null?'':s).split(/(\$\$[\s\S]+?\$\$|\$[^$]+\$)/).map((p,i)=>{
+    if(i%2===0)return esc(p).replace(/\n/g,'<br>');
+    const disp=p.startsWith('$$'), tex=disp?p.slice(2,-2):p.slice(1,-1);
+    try{return window.katex?katex.renderToString(tex,{displayMode:disp,throwOnError:false,strict:'ignore'}):esc(p)}catch(e){return esc(p)}
+  }).join('');
+}
 
 const isMC=location.hash==='#mc'||location.search.includes('mc');
 let token=localStorage.getItem('olp_token')||'';
