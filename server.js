@@ -16,7 +16,23 @@ const byToken = new Map();   // token -> id
 let S = { q: -1, phase: 'idle', rev: 0, startedAt: 0 };
 let answers = {};            // q -> { id: {val, t} }
 let scores = {};             // q -> { id: pts }
-
+const perms = [];            // perms[q] = thứ tự phương án đã xáo (chỉ số gốc)
+const L4 = 'ABCD';
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = crypto.randomInt(i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function makePerms() {
+  Q.forEach((q, i) => { perms[i] = q.opts ? shuffle(q.opts.map((_, k) => k)) : null; });
+}
+const optsOf = (i) => (Q[i].opts ? perms[i].map((k) => Q[i].opts[k]) : null);
+// chữ cái đáp án đúng SAU khi xáo
+const ansOf = (i) => (Q[i].opts ? L4[perms[i].indexOf(L4.indexOf(Q[i].ans))] : null);
+// chuỗi hiển thị đáp án đúng
+const showOf = (i) => (Q[i].opts ? ansOf(i) + '. ' + optsOf(i)[L4.indexOf(ansOf(i))] : Q[i].show);
 const rid = () => crypto.randomBytes(6).toString('hex');
 const isHost = (req) => (req.headers['x-host-pw'] || '') === HOST_PW;
 
@@ -27,8 +43,9 @@ function num(s) {
   if (!/^-?\d+(\.\d+)?$/.test(s)) return null;
   return parseFloat(s);
 }
-function isCorrect(q, val) {
-  if (q.ans) return String(val).trim().toUpperCase() === q.ans;
+function isCorrect(qi, val) {
+  const q = Q[qi];
+  if (q.opts) return String(val).trim().toUpperCase() === ansOf(qi);
   const x = num(val);
   return x !== null && Math.abs(x - q.num) <= q.tol;
 }
@@ -43,7 +60,7 @@ function closeQ() {
   if (S.phase !== 'open') return;
   const q = Q[S.q], lim = q.min * 60000 + GRACE;
   const good = Object.entries(answers[S.q] || {})
-    .filter(([, a]) => a.t <= lim && isCorrect(q, a.val))
+    .filter(([, a]) => a.t <= lim && isCorrect(S.q, a.val))
     .sort((a, b) => a[1].t - b[1].t);
   // Thể lệ: 1 người đúng = 10 điểm; 2 người = 8 điểm mỗi người; 3 người = 6 điểm mỗi người; 4 người trở lên = 5 điểm mỗi người
   const each = ({ 1: 10, 2: 8, 3: 6 })[good.length] || (good.length >= 4 ? 5 : 0);
@@ -53,7 +70,8 @@ function closeQ() {
   scores[S.q] = pts;
   S.phase = 'reveal';
 }
-function resetAll() { S = { q: -1, phase: 'idle', rev: S.rev + 1, startedAt: 0 }; answers = {}; scores = {}; }
+function resetAll() { S = { q: -1, phase: 'idle', rev: S.rev + 1, startedAt: 0 }; answers = {}; scores = {}; makePerms(); }
+makePerms();
 
 // Tự chốt khi hết giờ (không phụ thuộc tab của MC)
 setInterval(() => {
@@ -73,9 +91,9 @@ function stateFor(req, token) {
     me: me ? { id, name: me.name, submitted: !!(answers[S.q] && answers[S.q][id]) } : null };
   if (S.phase !== 'idle') {
     const q = Q[S.q];
-    out.min = q.min; out.text = q.text; out.opts = q.opts || null;
+    out.min = q.min; out.text = q.text; out.opts = optsOf(S.q);
     out.endsAt = S.startedAt + q.min * 60000;
-    if (S.phase === 'reveal') out.show = q.show;
+    if (S.phase === 'reveal') out.show = showOf(S.q);
   }
   if (isHost(req)) {
     out.host = { players: players.size, answered: S.phase === 'open' ? Object.keys(answers[S.q] || {}).length : 0 };
