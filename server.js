@@ -45,8 +45,10 @@ function closeQ() {
   const good = Object.entries(answers[S.q] || {})
     .filter(([, a]) => a.t <= lim && isCorrect(q, a.val))
     .sort((a, b) => a[1].t - b[1].t);
+  // Thể lệ: 1 người đúng = 10 điểm; 2 người = 8 điểm mỗi người; 3 người = 6 điểm mỗi người; 4 người trở lên = 5 điểm mỗi người
+  const each = ({ 1: 10, 2: 8, 3: 6 })[good.length] || (good.length >= 4 ? 5 : 0);
   const pts = {};
-  good.slice(0, 5).forEach(([id], i) => { pts[id] = 5 - i; });
+  good.forEach(([id]) => { pts[id] = each; });
   players.forEach((_, id) => { if (!(id in pts)) pts[id] = 0; });
   scores[S.q] = pts;
   S.phase = 'reveal';
@@ -124,6 +126,7 @@ http.createServer(async (req, res) => {
     if (b.action === 'open') openQ();
     else if (b.action === 'close') closeQ();
     else if (b.action === 'reset') resetAll();
+    else if (b.action === 'clear') { players.clear(); byToken.clear(); resetAll(); }
     else if (b.action === 'kick' && players.has(b.id)) { byToken.delete(players.get(b.id).token); players.delete(b.id); }
     return send(res, 200, { ok: true });
   }
