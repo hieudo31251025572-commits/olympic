@@ -1,0 +1,8 @@
+{
+  "name": "olympic-toan-thong-ke-2026",
+  "version": "1.0.0",
+  "description": "Phong thi Olympic Toan - Thong ke 2026 (khong can thu vien ngoai)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
