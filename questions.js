@@ -5,7 +5,9 @@
 const r = String.raw;
 module.exports = [
   { min: 3,
-    text: r`Công ty giao ba nhóm báo cáo cho ba chuyên viên với năng suất $x,y,z>0$ (báo cáo/ngày), cần $80$, $60$, $40$ báo cáo. Do yêu cầu cân bằng nguồn lực, năng suất thỏa ràng buộc $\ln x+\ln y+\ln z=\ln 24$. Tổng thời gian hoàn thành $T=\dfrac{80}{x}+\dfrac{60}{y}+\dfrac{40}{z}$ có giá trị nhỏ nhất (ngày) bằng`,
+    text: r`Công ty giao ba nhóm báo cáo cho ba chuyên viên với năng suất $x,y,z>0$ (báo cáo/ngày), cần $80$, $60$, $40$ báo cáo. Do yêu cầu cân bằng nguồn lực, năng suất thỏa ràng buộc $\ln x+\ln y+\ln z=\ln 24$. Tổng thời gian hoàn thành
+$$T=\dfrac{80}{x}+\dfrac{60}{y}+\dfrac{40}{z}$$
+có giá trị nhỏ nhất (ngày) bằng`,
     opts: ['60,00', '62,40', '66,00', '72,00'], ans: 'A', show: 'A. 60,00' },
   { min: 3,
     text: r`Một dự án có hai giai đoạn. Giai đoạn 1 cần vốn $50$ triệu đồng, thành công với xác suất $p$; nếu thất bại, dự án dừng và thu hồi $10$ triệu. Nếu thành công, nhà đầu tư góp thêm $30$ triệu cho giai đoạn 2, nhận về $200$ triệu (thành công) hoặc $50$ triệu (thất bại). Giai đoạn 2 thành công với xác suất $0{,}8$ khi thị trường tốt (xác suất $0{,}6$) và $0{,}3$ khi thị trường xấu. Giá trị $p$ nhỏ nhất để lợi nhuận kỳ vọng không âm là`,
@@ -20,13 +22,23 @@ module.exports = [
     text: r`Ba tài sản có độ lệch chuẩn lợi suất lần lượt là $\sigma_1=10\%$, $\sigma_2=20\%$, $\sigma_3=30\%$ và hệ số tương quan giữa mọi cặp tài sản đều bằng $\rho=0{,}5$. Nhà đầu tư được phép bán khống và lập danh mục $w=(w_1,w_2,w_3)^T$ với $w_1+w_2+w_3=1$ sao cho phương sai danh mục nhỏ nhất. Phương sai nhỏ nhất đó bằng`,
     opts: ['0,0081', '0,0084', '0,0100', '0,0096'], ans: 'D', show: 'D. 0,0096' },
   { min: 4,
-    text: r`Xét $n$ tài sản có phương sai bằng nhau $\sigma^2=0{,}05$ và hệ số tương quan mọi cặp bằng $\rho=0{,}2$. Nhà đầu tư phân bổ tỷ trọng tăng dần theo chỉ số: $w_i=\dfrac{i}{1+2+\cdots+n}$, $i=1,\dots,n$. Gọi $V(n)$ là phương sai danh mục. Giá trị của $L=\displaystyle\lim_{n\to\infty}n\bigl(V(n)-\rho\sigma^2\bigr)$ bằng`,
+    text: r`Xét $n$ tài sản có phương sai bằng nhau $\sigma^2=0{,}05$ và hệ số tương quan mọi cặp bằng $\rho=0{,}2$. Nhà đầu tư phân bổ tỷ trọng tăng dần theo chỉ số:
+$$w_i=\dfrac{i}{1+2+\cdots+n},\quad i=1,\dots,n.$$
+Gọi $V(n)$ là phương sai danh mục. Giá trị của
+$$L=\lim_{n\to\infty}n\bigl(V(n)-\rho\sigma^2\bigr)$$
+bằng`,
     opts: [r`$\dfrac{2}{75}$`, r`$\dfrac{1}{25}$`, r`$\dfrac{4}{75}$`, r`$\dfrac{1}{15}$`], ans: 'C', show: r`C. $\dfrac{4}{75}$` },
   { min: 4,
-    text: r`Giá một cổ phiếu $P(x)$ (nghìn đồng) tại thời điểm $x\in[0,5]$ (tháng) chính là đường nằm trên của hai đường: đường xu hướng tăng trưởng $2^{x}$ và đường hồi phục $(x-4)^{2}$, tức là $P(x)=\max\{2^{x},\ (x-4)^{2}\}$, $x\in[0,5]$. Gọi $m$ và $M$ lần lượt là mức giá thấp nhất và cao nhất của cổ phiếu trong $5$ tháng đó. Có bao nhiêu số nguyên $k$ thỏa $m\le k\le M$ sao cho đường giá cắt mức giá $k$ (nghìn đồng) đúng hai lần, tức $P(x)=k$ có đúng hai nghiệm phân biệt trên $[0,5]$?`,
+    text: r`Giá một cổ phiếu $P(x)$ (nghìn đồng) tại thời điểm $x\in[0,5]$ (tháng) chính là đường nằm trên của hai đường: đường xu hướng tăng trưởng $2^{x}$ và đường hồi phục $(x-4)^{2}$, tức là
+$$P(x)=\max\{2^{x},\ (x-4)^{2}\},\quad x\in[0,5].$$
+Gọi $m$ và $M$ lần lượt là mức giá thấp nhất và cao nhất của cổ phiếu trong $5$ tháng đó. Có bao nhiêu số nguyên $k$ thỏa $m\le k\le M$ sao cho đường giá cắt mức giá $k$ (nghìn đồng) đúng hai lần, tức $P(x)=k$ có đúng hai nghiệm phân biệt trên $[0,5]$?`,
     opts: ['11', '12', '13', '28'], ans: 'B', show: 'B. 12' },
   { min: 5,
-    text: r`Xét dãy $(X_t)_{t\ge0}$ nhận giá trị trong $\{1,2,3\}$ với ma trận xác suất chuyển $P=\begin{pmatrix}\tfrac12&\tfrac12&0\\\tfrac12&0&\tfrac12\\1&0&0\end{pmatrix}$, trong đó $P_{ij}=P(X_{t+1}=j\mid X_t=i)$. Hàm thưởng $r:\{1,2,3\}\to\mathbb R$ xác định bởi $r(1)=0$, $r(2)=8$, $r(3)=27$. Đặt $G=\lim_{N\to\infty}\frac1N\,\mathbb E\left[\sum_{t=1}^{N}r(X_t)\right]$. Tính $G$ (viết dưới dạng phân số tối giản, ví dụ 3/5).`,
+    text: r`Xét dãy $(X_t)_{t\ge0}$ nhận giá trị trong $\{1,2,3\}$ với ma trận xác suất chuyển
+$$P=\begin{pmatrix}\tfrac12&\tfrac12&0\\[2pt]\tfrac12&0&\tfrac12\\[2pt]1&0&0\end{pmatrix},$$
+trong đó $P_{ij}=P(X_{t+1}=j\mid X_t=i)$. Hàm thưởng $r:\{1,2,3\}\to\mathbb R$ xác định bởi $r(1)=0$, $r(2)=8$, $r(3)=27$. Đặt
+$$G=\lim_{N\to\infty}\frac1N\,\mathbb E\Bigl[\sum_{t=1}^{N}r(X_t)\Bigr].$$
+Tính $G$ (viết dưới dạng phân số tối giản, ví dụ 3/5).`,
     num: 43 / 7, tol: 0.002, show: r`$\dfrac{43}{7}$` },
   { min: 5,
     text: r`Giá trị danh mục $V(t)$ (tỷ đồng, $t$ tính theo năm) có $V(0)=4$. Tại mọi thời điểm, $50\%$ giá trị danh mục gửi vào tài sản phi rủi ro với lãi suất $4\%$/năm, $50\%$ còn lại đầu tư vào tài sản rủi ro có lợi suất $8\%$/năm; phí quản lý là $2\%\cdot V$ mỗi năm. Ngoài ra, mỗi năm nhà đầu tư rút đều $0{,}2$ tỷ đồng để chi tiêu (xem như rút liên tục). Tốc độ thay đổi $V'(t)$ bằng lợi nhuận tức thời trừ phí và trừ khoản rút. Tính thời điểm $t^*$ (năm) mà danh mục cạn tiền, tức $V(t^*)=0$ (làm tròn đến $2$ chữ số thập phân, dùng dấu chấm, ví dụ 12.34).`,
