@@ -90,7 +90,8 @@ function stateFor(req, token) {
   const out = { now: Date.now(), phase: S.phase, q: S.q, nq: Q.length, rev: S.rev, board,
     me: me ? { id, name: me.name,
       submitted: !!(answers[S.q] && answers[S.q][id]),
-      answer: (answers[S.q] && answers[S.q][id]) ? answers[S.q][id].val : null } : null };
+      answer: (answers[S.q] && answers[S.q][id]) ? answers[S.q][id].val : null,
+      ok: (S.phase === 'reveal' && scores[S.q]) ? (scores[S.q][id] || 0) > 0 : null } : null };
   if (S.phase !== 'idle') {
     const q = Q[S.q];
     out.min = q.min; out.text = q.text; out.opts = optsOf(S.q);
