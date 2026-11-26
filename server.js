@@ -88,7 +88,9 @@ function stateFor(req, token) {
     .map(([pid, p]) => ({ id: pid, name: p.name, total: total[pid] || 0, cur: cur ? (cur[pid] || 0) : null }))
     .sort((a, b) => b.total - a.total);
   const out = { now: Date.now(), phase: S.phase, q: S.q, nq: Q.length, rev: S.rev, board,
-    me: me ? { id, name: me.name, submitted: !!(answers[S.q] && answers[S.q][id]) } : null };
+    me: me ? { id, name: me.name,
+      submitted: !!(answers[S.q] && answers[S.q][id]),
+      answer: (answers[S.q] && answers[S.q][id]) ? answers[S.q][id].val : null } : null };
   if (S.phase !== 'idle') {
     const q = Q[S.q];
     out.min = q.min; out.text = q.text; out.opts = optsOf(S.q);
@@ -134,7 +136,8 @@ http.createServer(async (req, res) => {
     if (!id || !val || S.phase !== 'open') return send(res, 400, { error: 'Không nộp được' });
     const t = Date.now() - S.startedAt;
     if (t > Q[S.q].min * 60000 + GRACE) return send(res, 400, { error: 'Hết giờ' });
-    if (answers[S.q][id]) return send(res, 200, { ok: true, dup: true });
+    if (Q[S.q].opts && !/^[ABCD]$/.test(val)) return send(res, 400, { error: 'Đáp án không hợp lệ' });
+    if (answers[S.q][id] && !Q[S.q].opts) return send(res, 200, { ok: true, dup: true });
     answers[S.q][id] = { val, t };
     return send(res, 200, { ok: true });
   }
