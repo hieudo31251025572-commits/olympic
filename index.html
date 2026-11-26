@@ -84,6 +84,8 @@ input{width:60%;max-width:100%}
 table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;text-align:left;border-bottom:1px solid rgba(177,140,255,.22)}
 th{color:#cbbcff;font-weight:600}
 .ok{color:var(--ok);font-weight:700}
+.right{color:#3ddc84;font-weight:700}
+.wrong{color:#ff5c6c;font-weight:700}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .katex-display{margin:.5em 0}
 /* Giãn dòng cho đề bài: 1,55 lần cỡ chữ + thêm 2pt (đổi 2pt ở đây nếu muốn chỉnh) */
@@ -180,7 +182,13 @@ function renderQ(){
   }else if(S.opts)h+='<div class="mut">'+S.opts.map((o,i)=>'ABCD'[i]+'. '+rich(o)).join(' &nbsp; ')+'</div>';
   if(S.phase==='reveal'){
     h+='<p>Đáp án đúng: <span class="ok">'+rich(S.show)+'</span></p>';
-    if(!isMC&&S.me&&S.me.answer&&S.opts)h+='<p>Bạn đã chọn: <b>'+S.me.answer+'</b></p>';
+    if(!isMC&&S.me){
+      if(S.me.answer){
+        let shown=esc(S.me.answer);
+        if(S.opts){const i='ABCD'.indexOf(S.me.answer);if(i>=0)shown=S.me.answer+'. '+rich(S.opts[i])}
+        h+='<p>Đáp án của bạn: <span class="'+(S.me.ok?'right':'wrong')+'">'+shown+'</span> '+(S.me.ok?'(đúng)':'(sai)')+'</p>';
+      }else h+='<p>Đáp án của bạn: <span class="wrong">chưa nộp</span></p>';
+    }
     const me=S.board.find(x=>S.me&&x.id===S.me.id);
     if(!isMC&&me)h+='<p>Điểm câu này của bạn: <b>'+(me.cur||0)+'</b></p>';
   }
