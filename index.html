@@ -79,6 +79,7 @@ button:disabled{opacity:.4;cursor:default;box-shadow:none}
   font-size:17.5px;font-weight:700;line-height:1.5;padding:12px 14px;
   box-shadow:0 2px 10px rgba(138,77,255,.35)}
 .opts button:hover{background:rgba(138,77,255,.38);box-shadow:0 2px 14px rgba(177,140,255,.55)}
+.opts button.sel{background:linear-gradient(135deg,#8a4dff,#5b2fe0);border-color:var(--gold);box-shadow:0 0 14px rgba(245,184,61,.6)}
 input{width:60%;max-width:100%}
 table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;text-align:left;border-bottom:1px solid rgba(177,140,255,.22)}
 th{color:#cbbcff;font-weight:600}
@@ -162,19 +163,24 @@ function renderJoin(){
 }
 function renderQ(){
   const b=$('qbox');
-  const key=[S.rev,S.phase,S.me&&S.me.submitted,isMC].join('|');
+  const key=[S.rev,S.phase,S.me&&S.me.submitted,S.me&&S.me.answer,isMC].join('|');
   if(S.phase==='idle'){b.className='mut';b.textContent='Chờ người điều khiển mở câu hỏi.';lastKey=key;return}
   if(key===lastKey)return; // không vẽ lại khi thí sinh đang gõ
   lastKey=key;b.className='';
   let h='<div class="mut">Câu '+(S.q+1)+'/'+S.nq+' · '+S.min+' phút · 1 người đúng: 10đ · 2 người: 8đ · 3 người: 6đ · 4-5 người: 5đ (mỗi người)</div><p>'+rich(S.text)+'</p>';
   const canAnswer=S.phase==='open'&&!isMC&&S.me;
   if(canAnswer){
-    if(S.me.submitted)h+='<div class="ok">Đã nộp đáp án. Chờ hết giờ.</div>';
-    else if(S.opts)h+='<div class="opts">'+S.opts.map((o,i)=>'<button data-v="'+'ABCD'[i]+'">'+'ABCD'[i]+'. '+rich(o)+'</button>').join('')+'</div>';
+    if(S.opts){
+      const sel=S.me.answer;
+      h+='<div class="opts">'+S.opts.map((o,i)=>{const L='ABCD'[i];return '<button data-v="'+L+'"'+(sel===L?' class="sel"':'')+'>'+L+'. '+rich(o)+'</button>'}).join('')+'</div>';
+      h+='<div class="'+(sel?'ok':'mut')+'" style="margin-top:8px">'+(sel?'Đã chọn '+sel+'. Bạn có thể đổi đáp án đến hết giờ.':'Chưa chọn đáp án.')+'</div>';
+    }
+    else if(S.me.submitted)h+='<div class="ok">Đã nộp đáp án. Chờ hết giờ.</div>';
     else h+='<input id="av" placeholder="Đáp án" autocomplete="off"> <button id="avb">Nộp</button>';
   }else if(S.opts)h+='<div class="mut">'+S.opts.map((o,i)=>'ABCD'[i]+'. '+rich(o)).join(' &nbsp; ')+'</div>';
   if(S.phase==='reveal'){
     h+='<p>Đáp án đúng: <span class="ok">'+rich(S.show)+'</span></p>';
+    if(!isMC&&S.me&&S.me.answer&&S.opts)h+='<p>Bạn đã chọn: <b>'+S.me.answer+'</b></p>';
     const me=S.board.find(x=>S.me&&x.id===S.me.id);
     if(!isMC&&me)h+='<p>Điểm câu này của bạn: <b>'+(me.cur||0)+'</b></p>';
   }
