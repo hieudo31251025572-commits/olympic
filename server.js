@@ -166,8 +166,9 @@ http.createServer(async (req, res) => {
     if (!id || !val || S.phase !== 'open') return send(res, 400, { error: 'Không nộp được' });
     const t = Date.now() - S.startedAt;
     if (t > Q[S.q].min * 60000 + GRACE) return send(res, 400, { error: 'Hết giờ' });
-    if (Q[S.q].opts && !/^[ABCD]$/.test(val)) return send(res, 400, { error: 'Đáp án không hợp lệ' });
-    if (answers[S.q][id] && !Q[S.q].opts) return send(res, 200, { ok: true, dup: true });
+    const isMC = !!variantOf(S.q).opts;
+    if (isMC && !/^[ABCD]$/.test(val)) return send(res, 400, { error: 'Đáp án không hợp lệ' });
+    if (answers[S.q][id] && !isMC) return send(res, 200, { ok: true, dup: true });
     answers[S.q][id] = { val, t };
     return send(res, 200, { ok: true });
   }
